@@ -1,13 +1,13 @@
-from .base_robot import ROBOT 
+from .base_robot import Robot 
 class CookingRobot(Robot):
-    def __init__(self,name: str, cooking_skill: str) ->NONE:
+    def __init__(self,name: str, cooking_skill: str) ->None:
         super().__init__(name)
         self._cooking_skill =cooking_skill
     #first we define the attributes here is cleaningtool
     def cooking_skill (self) ->str:
          return self._cooking_skill
     #Second we define the methods here is work
-    def work(self)  -> NONE:
+    def work(self)  -> None:
         #decrease battery level by 20 for each cleaning session but check first if battery level is above 20
         if self._battery_level>=30:
             self._status ="ABLE TO WORK"
