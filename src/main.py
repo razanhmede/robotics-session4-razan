@@ -13,6 +13,6 @@ def main():
         robot.report_status()
         robot.charge()
         robot.work()
-
+        print(robot.self_diagnose()) 
 if __name__ == "__main__":
     main()

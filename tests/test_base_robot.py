@@ -1,5 +1,5 @@
 import unittest
-from src.robots.base_robot import Robot  # Assuming Robot class is defined in base_robot.py
+from src.robots.base_robot import Robot  
 
 class TestRobot(unittest.TestCase):
     def setUp(self):
@@ -33,9 +33,7 @@ class TestRobot(unittest.TestCase):
             self.robot.status = "invalid_status"
 
     def test_report_status(self):
-        # Assuming report_status() prints to stdout or logs
-        # You can capture the output and assert on it if needed
-        pass  # Implement your test logic here
+        pass 
 
 if __name__ == "__main__":
     unittest.main()
