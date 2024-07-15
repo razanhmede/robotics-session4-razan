@@ -1,11 +1,12 @@
 from robots.cleaning_robot import CleaningRobot
 from robots.cooking_robot import CookingRobot
-
+#maitenance robot multitask between cooking and cleaning 
+#has a multitask method which checks for enough battery level for the robot to work 2 tasks 
 class MaintenanceRobot(CleaningRobot, CookingRobot):
-    def __init__(self, name: str, cleaningtool: str, cooking_skill: str) -> None:
+    def __init__(self, name: str ,battery_level: int, status: str,cleaningtool: str, cooking_skill: str):
         # Initialize both parent classes
-        CleaningRobot.__init__(self, name, cleaningtool)
-        CookingRobot.__init__(self, name, cooking_skill)
+        CleaningRobot.__init__(self,name, battery_level,status,cleaningtool)
+        CookingRobot.__init__(self,name,battery_level,status,cooking_skill)
 
     def multi_task(self) -> None:
         print(f"{self.name} is starting multi-tasking")
@@ -17,14 +18,14 @@ class MaintenanceRobot(CleaningRobot, CookingRobot):
 
         try:
             # Perform cleaning task
-            CleaningRobot.work(self)
+            CleaningRobot.clean(self)
         except Exception as e:
             print(f"An error occurred during cleaning: {e}")
             return
 
         try:
             # Perform cooking task
-            CookingRobot.work(self)
+            CookingRobot.cook(self)
         except Exception as e:
             print(f"An error occurred during cooking: {e}")
             return

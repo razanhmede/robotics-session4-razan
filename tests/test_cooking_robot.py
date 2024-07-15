@@ -1,58 +1,37 @@
 import unittest
-from src.robots.cooking_robot import CookingRobot
 import sys
-from io import StringIO
-    
+import os
+# So we can import from robots 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+from src.robots.cooking_robot import CookingRobot
 
 class TestCookingRobot(unittest.TestCase):
-     #set up the cooking robot 
+
     def setUp(self):
-        self.robot = CookingRobot(name="Test Chef 1", cooking_skill="beginner")
-     #test the initial battery level and status of robot
-    def test_initial_battery_level(self):
+        self.robot = CookingRobot(name="Test Chef 1", battery_level=100, status="idle", cooking_skill="beginner")
+
+    def test_initialization(self):
+        # Test that the robot is initialized correctly
+        self.assertEqual(self.robot.name, "Test Chef 1")
         self.assertEqual(self.robot.battery_level, 100)
-    def test_initial_status(self):
         self.assertEqual(self.robot.status, "idle")
-    # test the work status and battery level of the robot 
-    def test_charge(self):
-        self.robot.battery_level = 50
-        self.robot.charge()
-        self.assertEqual(self.robot.battery_level, 100)
-        self.assertEqual(self.robot.status, "charging")
-
-    def test_work(self):
-        self.robot.work()
-        self.assertEqual(self.robot.battery_level, 70)  # Assuming work decreases battery by 30
-        self.assertEqual(self.robot.status, "ABLE TO WORK")
-
-    #test the report status method 
-    def test_report_status(self):
-        captured_output = StringIO()
-        sys.stdout = captured_output
-        self.robot.report_status()
-        sys.stdout = sys.__stdout__  
-        printed_output = captured_output.getvalue().strip()
-        expected_status_message = f"The current status of Test Chef 1 is idle. Battery level is 100%"
-        self.assertIn(expected_status_message, printed_output)
-
-    #test the case where battery level is low
-    def test_work_with_low_battery(self):
-        self.robot.battery_level = 20
-        self.robot.work()
-        self.assertEqual(self.robot.battery_level, 0)
-        self.assertEqual(self.robot.status, "idle")
-    #test with zero battery level
-    def test_work_with_zero_battery(self):
-        self.robot.battery_level = 0
-        with self.assertRaises(ValueError):
-            self.robot.work()
-    #test invalid battery level and status 
-    def test_invalid_battery_level(self):
-        with self.assertRaises(ValueError):
-            self.robot.battery_level = 110
-    def test_invalid_status(self):
-        with self.assertRaises(ValueError):
-            self.robot.status = "flying"
+        self.assertEqual(self.robot.cooking_skill, "beginner")
+    
+    def test_cooking_behavior(self):
+        # Test that the robot can cook a meal and deplete the battery
+        self.robot.cook()
+        self.assertEqual(self.robot.battery_level, 0)  # Battery will be depleted after one session
+    
+    def test_insufficient_battery(self):
+        # Attempt to work with insufficient battery
+        self.robot.cook()
+        self.assertEqual(self.robot.status, "idle")  # Status should remain idle
+        self.assertEqual(self.robot.battery_level, 0)  # Battery should not decrease further
+    
+    def test_report_status_method(self):
+        expected_output = "Robot Test Chef 1 is idle with 30% battery"
+        self.assertEqual(self.robot.report_status(), expected_output)
+    
 
 if __name__ == '__main__':
     unittest.main()

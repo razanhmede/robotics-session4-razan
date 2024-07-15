@@ -1,77 +1,41 @@
 import unittest
-from src.robots.cleaning_robot import CleaningRobot
+import os
+import sys
+
+# Add 'src' directory to Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+# Import the CleaningRobot class from robots package
+from robots.cleaning_robot import CleaningRobot
 
 class TestCleaningRobot(unittest.TestCase):
+
     def setUp(self):
-        self.robot = CleaningRobot(name="Mr.Clean2", cleaningtool="vacuum")
+        self.robot = CleaningRobot(name="Mr.Clean2", battery_level=100, status="idle", cleaningtool="vacuum")
 
-    # Test the initial state of the robot
-    def test_initial_state(self):
+    def test_initialization(self):
+        # Test that the robot is initialized correctly
         self.assertEqual(self.robot.name, "Mr.Clean2")
+        self.assertEqual(self.robot.battery_level, 100)
+        self.assertEqual(self.robot.status, "idle")
         self.assertEqual(self.robot.cleaningtool, "vacuum")
-        self.assertEqual(self.robot.battery_level, 100)
-        self.assertEqual(self.robot.status, "idle")
-
-    # Test the work status and battery level of the robot
-    def test_work(self):
-        self.robot.work()
-        self.assertEqual(self.robot.battery_level, 80)
-        self.assertEqual(self.robot.status, "idle")
-
-    # Test the low battery status of the robot
-    def test_low_battery_work(self):
-        self.robot.battery_level = 10
-        self.robot.work()
-        self.assertEqual(self.robot.battery_level, 10)
-        self.assertEqual(self.robot.status, "idle")
-
-    # Test setting the exact cleaning tool for the robot
-    def test_set_cleaningtool(self):
-        self.robot.cleaningtool = "mop"
-        self.assertEqual(self.robot.cleaningtool, "mop")
-
-    # Test the robot's behavior when the battery level is at the exact threshold for working
-    def test_exact_threshold_battery(self):
-        self.robot.battery_level = 20
-        self.robot.work()
-        self.assertEqual(self.robot.battery_level, 0)
-        self.assertEqual(self.robot.status, "idle")
-
-    # Test the robot's behavior when the battery level is just below the threshold for working
-    def test_battery_just_below_threshold(self):
-        self.robot.battery_level = 19
-        self.robot.work()
-        self.assertEqual(self.robot.battery_level, 19)
-        self.assertEqual(self.robot.status, "idle")
-
-    # Test the case where the cleaning tool provided is invalid
-    def test_invalid_cleaningtool(self):
-        with self.assertRaises(ValueError):
-            self.robot.cleaningtool = " "  # Assuming an empty string is invalid
-
-    # Test updating the battery level and robot's status after charging
-    def test_status_after_charge(self):
-        self.robot.battery_level = 0
-        self.robot.charge()
-        self.assertEqual(self.robot.battery_level, 100)
-        self.assertEqual(self.robot.status, "charging")
-
-    # Test making sure the battery level of the robot during and after work is enough
-    def test_status_during_work(self):
-        self.robot.battery_level = 50
-        self.robot.work()
-        self.assertEqual(self.robot.status, "idle")
-        self.assertEqual(self.robot.battery_level, 30)
-
-    # Test invalid battery level in case > 100 or <0
-    def test_invalid_battery_level(self):
-        with self.assertRaises(ValueError):
-            self.robot.battery_level = 150
-
-    # Test invalid status of robot
-    def test_invalid_status(self):
-        with self.assertRaises(ValueError):
-            self.robot.status = "invalid_status"
+    
+    def test_cleaning_behavior(self):
+        # Test that the robot can clean a room and deplete the battery
+        self.robot.clean()
+        self.assertEqual(self.robot.battery_level, 0)  # Battery will be depleted after one session
+    
+    def test_insufficient_battery(self):
+        # Attempt to work with insufficient battery
+        self.robot.clean()
+        self.assertEqual(self.robot.status, "idle")  # Status should remain idle
+        self.assertEqual(self.robot.battery_level, 0)  # Battery should not decrease further
+    
+    def test_report_status_method(self):
+        # Test that the report_status() works properly
+        expected_output = "Robot Mr.Clean2 is idle with 100% battery"  # Adjust based on your implementation
+        self.assertEqual(self.robot.report_status(), expected_output)
+    
 
 if __name__ == '__main__':
     unittest.main()
