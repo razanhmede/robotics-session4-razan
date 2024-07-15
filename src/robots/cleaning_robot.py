@@ -3,7 +3,7 @@ from .base_robot import Robot
 #cleaning robot has as set cleaning tool which checks for the validity of the cleaning tool provided 
 #clean method (to not override if same work method is used for cooking and cleaning)
 #clean method checks if if the robot is able to clean through battery level and decreases the battery level by 1 % for each 1 min of working (only for testing purposes)
-#self diagnosis method which checks for valid cleaning tool
+#self diagnosis method which checks for valid c tool
 class CleaningRobot(Robot):
     def __init__(self,name: str, battery_level: int, status: str, cleaningtool: str):
         Robot.__init__(name, battery_level, status)

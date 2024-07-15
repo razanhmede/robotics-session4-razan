@@ -21,19 +21,16 @@ class TestCleaningRobot(unittest.TestCase):
         self.assertEqual(self.robot.cleaningtool, "vacuum")
     
     def test_cleaning_behavior(self):
-        # Test that the robot can clean a room and deplete the battery
         self.robot.clean()
-        self.assertEqual(self.robot.battery_level, 0)  # Battery will be depleted after one session
+        self.assertEqual(self.robot.battery_level, 0)  
     
     def test_insufficient_battery(self):
-        # Attempt to work with insufficient battery
         self.robot.clean()
-        self.assertEqual(self.robot.status, "idle")  # Status should remain idle
-        self.assertEqual(self.robot.battery_level, 0)  # Battery should not decrease further
+        self.assertEqual(self.robot.status, "idle") 
+        self.assertEqual(self.robot.battery_level, 0)  
     
     def test_report_status_method(self):
-        # Test that the report_status() works properly
-        expected_output = "Robot Mr.Clean2 is idle with 100% battery"  # Adjust based on your implementation
+        expected_output = "Robot Mr.Clean2 is idle with 100% battery" 
         self.assertEqual(self.robot.report_status(), expected_output)
     
 

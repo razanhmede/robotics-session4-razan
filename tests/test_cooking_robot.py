@@ -11,22 +11,19 @@ class TestCookingRobot(unittest.TestCase):
         self.robot = CookingRobot(name="Test Chef 1", battery_level=100, status="idle", cooking_skill="beginner")
 
     def test_initialization(self):
-        # Test that the robot is initialized correctly
         self.assertEqual(self.robot.name, "Test Chef 1")
         self.assertEqual(self.robot.battery_level, 100)
         self.assertEqual(self.robot.status, "idle")
         self.assertEqual(self.robot.cooking_skill, "beginner")
     
     def test_cooking_behavior(self):
-        # Test that the robot can cook a meal and deplete the battery
         self.robot.cook()
-        self.assertEqual(self.robot.battery_level, 0)  # Battery will be depleted after one session
+        self.assertEqual(self.robot.battery_level, 0) 
     
     def test_insufficient_battery(self):
-        # Attempt to work with insufficient battery
         self.robot.cook()
-        self.assertEqual(self.robot.status, "idle")  # Status should remain idle
-        self.assertEqual(self.robot.battery_level, 0)  # Battery should not decrease further
+        self.assertEqual(self.robot.status, "idle")
+        self.assertEqual(self.robot.battery_level, 0) 
     
     def test_report_status_method(self):
         expected_output = "Robot Test Chef 1 is idle with 30% battery"

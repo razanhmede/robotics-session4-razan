@@ -45,6 +45,7 @@ class Robot(ABC):
             while Robot.get_battery_level() < 100:
                 time.sleep(1)
                 Robot.set_battery_level(Robot.get_battery_level() + 1)
+                self.battery_level = 100
                 print(f"Battery level: {Robot.get_battery_level()}%")
             print("Robot has finished charging!")
             Robot.set_status("idle")

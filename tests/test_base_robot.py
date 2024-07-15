@@ -12,7 +12,7 @@ class TestRobot(unittest.TestCase):
     
     def setUp(self):
         # Initialize objects that will be used in the tests
-        self.robot = Robot(name2="BOB 2000", battery_level=50, status="idle")
+        self.robot = Robot(name="BOB 2000", battery_level=50, status="idle")
     
     def test_initialization(self):
         # Test that the robot is initialized correctly
