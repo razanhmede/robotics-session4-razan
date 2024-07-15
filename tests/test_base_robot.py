@@ -6,19 +6,22 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 # Import the Robot class from robots package
+# Import the cleaning robot to use it for testing 
 from robots.base_robot import Robot
+from robots.cleaning_robot import CleaningRobot
 
 class TestRobot(unittest.TestCase):
     
     def setUp(self):
         # Initialize objects that will be used in the tests
-        self.robot = Robot(name="BOB 2000", battery_level=50, status="idle")
+        self.robot = CleaningRobot(name="BOB 2000", battery_level=50, status="idle",cleaningtool="vaccum")
     
     def test_initialization(self):
         # Test that the robot is initialized correctly
         self.assertEqual(self.robot.name, "BOB 2000")
         self.assertEqual(self.robot.battery_level, 50)
         self.assertEqual(self.robot.status, "idle")
+        
     
     def test_charge_method(self):
         # Test that the charge method works correctly

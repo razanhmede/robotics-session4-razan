@@ -16,3 +16,8 @@ This project focuses on simulating various types of robots with specific functio
  2- Build and run the docker container 
  3- Create instances of CleaningRobot, CookingRobot, or MaintenanceRobot with specified attributes in the main file
  4- Run Tests using: python -m unittest discover -s tests
+##MRO OR Method resolution Order:
+
+In Python, Method Resolution Order (MRO) plays a crucial role in determining the order in which methods are inherited and overridden in classes that use multiple inheritance.
+The MRO defines the sequence in which base classes are searched when looking up methods or attributes.
+MRO avoids method conflicts as used in the maintenance_robot code 
